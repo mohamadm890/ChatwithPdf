@@ -1,15 +1,16 @@
-import { Geist, Geist_Mono } from "next/font/google";
+import { Cairo, Geist_Mono } from "next/font/google";
 import "./globals.css";
+import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar"
+import { AppSidebar } from "./app-sidebar"
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
+// Ensure Arabic subset is included
+const cairo = Cairo({
+  variable: "--font-cairo",
+  subsets: ["latin", "arabic"], // Add Arabic support
+  weight: ["400","500","600", "700", "800"], // Add different font weights if needed
 });
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
+
 
 export const metadata = {
   title: "Create Next App",
@@ -18,12 +19,20 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
+
+    <html lang="ar" dir="rtl">
+
+      <body className={` ${cairo.variable} antialiased`}>
+       <SidebarProvider>
+        <AppSidebar />
+        <main className="flex-1 flex flex-col p-4">
+      <SidebarTrigger />
         {children}
+        </main>
+      </SidebarProvider>
+
       </body>
     </html>
+
   );
 }
