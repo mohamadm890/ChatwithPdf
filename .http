@@ -1,0 +1,10 @@
+POST https://3002-idx-node-1736794691762.cluster-rcyheetymngt4qx5fpswua3ry4.cloudworkstations.dev/
+Content-Type: application/json
+
+{
+    "fileName": "MyTestFolder"
+}
+
+---
+
+GET https://3002-idx-node-1736794691762.cluster-rcyheetymngt4qx5fpswua3ry4.cloudworkstations.dev/
