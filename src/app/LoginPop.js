@@ -24,11 +24,9 @@ export function DialogDemo() {
         <button variant="outline text-bold">تسجيل الدخول</button>
       </DialogTrigger>
       <DialogContent className="w-full">
-        <DialogHeader>
-        <DialogTitle>Log In</DialogTitle>
+        <DialogTitle></DialogTitle>
 
             <Login  />
-        </DialogHeader>
 
       </DialogContent>
     </Dialog>

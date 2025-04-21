@@ -11,25 +11,28 @@ const userVideoStore = create((set) => ({
     user: {
       uid: null,
       email: null,
+      accesstoken: null
     },
   authenticated: false,
 
   getUser: () => get().user,
   isAuthenticated: () => get().authenticated,
   setAuthenticated: (authenticated) => set({ authenticated }),
-
+  setFiles: (file) => {
+    set((state) => ({
+      files: [...state.files, file]
+    }))
+  },
+  resetFiles: () => set({ files: [] }),
   setUser: (user) => {
     set((state) => ({
       user: {
         ...state.user,
         uid: user.uid,
         email: user.email,
+        accesstoken: user.accesstoken
       },
     }));
-    console.log('Updated user:', user);
-    if (user) {
-      console.log('User UID:', user.uid);
-    }
     localStorage.setItem("user", JSON.stringify(user)); 
   },
   getUserUid: () => {
@@ -46,6 +49,7 @@ const userVideoStore = create((set) => ({
           // Sign out from Firebase
           await signOut(auth);
           set({ authenticated: false });
+          localStorage.removeItem("user");
           console.log("User signed out from Firebase.");
     
           // Clear local state using Zustand

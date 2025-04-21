@@ -5,7 +5,8 @@ import ChatCard from "@/app/pages/chatCard";
 import { useState, useEffect } from "react";
 import { useParams } from 'next/navigation'; 
 import userVideoStore from '@/app/pages/storedata';
-
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 
 export default function Page() {
@@ -15,16 +16,29 @@ export default function Page() {
   const [inputText, setInputText] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const { files } = userVideoStore();
-
+  
   console.log("first", message);
 
   // Function to handle bot and user messages
  
+    
+  
   // Function to send a user message and get a bot response
 
   const submit = async () => {
     if (!inputText.trim()) return;
 
+
+    const storedToken = localStorage.getItem('idToken');
+    const uid_id = localStorage.getItem('user');
+    const parsedUser = JSON.parse(uid_id);
+
+    console.log("Stored userID:", parsedUser.uid);
+
+    const userId = parsedUser.uid;
+    console.log("Stored userID:", userId);
+
+    console.log("Stored Token:", storedToken);
     const userMsg = { text: inputText, isBot: false };
     setMessage((prev) => [...prev, userMsg]);
     console.log("second", message);
@@ -34,16 +48,24 @@ export default function Page() {
     setIsLoading(true);
 
     const API_URL =
-      "https://3002-idx-node-1736794691762.cluster-rcyheetymngt4qx5fpswua3ry4.cloudworkstations.dev/chat";
+    process.env.NEXT_PUBLIC_LINKAPI + "chat";
 
     try {
       const response = await fetch(API_URL, {
         method: "POST", // Make sure to use POST
         headers: {
           "Content-Type": "application/json",
+          "Authorization": `Bearer ${storedToken}`, 
+
         },
-        body: JSON.stringify({ user_question: currentInput, user_id }),
+        body: JSON.stringify({ user_question: currentInput, user_id, userId }),
       });
+
+      if(response.status === 404) {
+        toast.error("لقد انتهت محاولاتك التجريبية البالغة 2. يرجى الترقية للاستمرار في استخدام الخدمة.");
+        setIsLoading(false);
+        return;
+      }
 
       const res = await response.json();
       console.log(res);
@@ -58,7 +80,7 @@ export default function Page() {
 
       // Define your save API endpoint
       const API_URL_SAVE =
-        "https://3002-idx-node-1736794691762.cluster-rcyheetymngt4qx5fpswua3ry4.cloudworkstations.dev/message";
+      process.env.NEXT_PUBLIC_LINKAPI + "message";
       
       // Make the API call to save the two messages
       const saveResponse = await fetch(API_URL_SAVE, {
@@ -95,8 +117,8 @@ export default function Page() {
     async function saveMessages() {
       try {
         const API_URL_SAVE =
-          "https://3002-idx-node-1736794691762.cluster-rcyheetymngt4qx5fpswua3ry4.cloudworkstations.dev/messages";
-  
+        process.env.NEXT_PUBLIC_LINKAPI + "messages";
+        
         // Make the API call to save the two messages
         const saveResponse = await fetch(API_URL_SAVE, {
           method: "POST",
@@ -156,7 +178,7 @@ export default function Page() {
       />
     ))
   ) : (
-    <p>No messages available</p> // Or any fallback UI you prefer
+    <p>     الآن يمكنك طرح سؤال أو تلخيص الملف</p> // Or any fallback UI you prefer
   )
 }
 
@@ -171,6 +193,7 @@ export default function Page() {
       </div>
 
     
+      <ToastContainer />
 
       {/* Chat Input Box (Fixed at Bottom) */}
       <div className="mt-16 fixed bottom-0 w-full flex justify-center items-center bg-white p-4 

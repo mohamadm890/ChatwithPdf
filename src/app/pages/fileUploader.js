@@ -1,97 +1,115 @@
 'use client';
-import React, { useState, useEffect } from 'react';
-import { useRouter } from 'next/navigation'
-import userVideoStore from './storedata';
 
+import React, { useState } from 'react';
+import { useRouter } from 'next/navigation';
+import userVideoStore from './storedata';
+import axios from 'axios';
 
 function FileUploader() {
   const [selectedFile, setSelectedFile] = useState(null);
+  const [uploading, setUploading] = useState(false);
+  const [uploadProgress, setUploadProgress] = useState(0);
+  const { setFiles } = userVideoStore();
   const router = useRouter();
-  const getUserUid = userVideoStore.getState().user?.uid || JSON.parse(localStorage.getItem("user"))?.uid;
-  console.log("user",getUserUid);
-  
- 
 
-  
-
-  // This function is triggered when the user selects a file from the input
   const handleFileChange = (event) => {
-    setSelectedFile(event.target.files[0]); // Store the selected file in state
+    setSelectedFile(event.target.files[0]);
   };
 
-  // This function is triggered when the user clicks the "رفع الملف" (Upload file) button
   const handleUpload = async () => {
-    // Check if a file was selected
     if (!selectedFile) {
-      alert('الرجاء اختيار ملف!'); // Alert if no file is selected
+      alert('الرجاء اختيار ملف!');
       return;
     }
 
+    const user = JSON.parse(localStorage.getItem("user"));
+    const userId = user?.uid;
+    if (!userId) return;
+
     const formData = new FormData();
-    formData.append('file', selectedFile); // Add the selected file to the FormData
+    formData.append('file', selectedFile);
 
     try {
-      // Indicate that the upload is in process (UI feedback)
+      setUploading(true);
+      setUploadProgress(0);
       alert('جاري تحميل الملف...');
 
-      const response = await fetch('https://3002-idx-node-1736794691762.cluster-rcyheetymngt4qx5fpswua3ry4.cloudworkstations.dev/upload', 
+      const response = await axios.post(
+        'http://157.230.120.254/upload',
+        formData,
         {
-        method: 'POST',
-        body: formData,
-      });
-      
-      // Check if the upload was successful
-      if (response.ok) {
-        alert('تم تحميل الملف بنجاح!'); 
-     const data = await response.json()
-     console.log("fetched", data);
-     if (!getUserUid) return;
-       const file_name = {
-        user_id: getUserUid,
-        file_name: selectedFile.name,
-        file_id: data.file_id
-       }
-       console.log("this info save", file_name);
+          headers: {
+            'Authorization': `Bearer ${userId}`,
+          },
+          onUploadProgress: (progressEvent) => {
+            const percent = Math.round((progressEvent.loaded * 100) / progressEvent.total);
+            setUploadProgress(percent);
+            console.log(`📦 Upload progress: ${percent}%`);
+          },
+        }
+      );
 
-       const fileResponse = await fetch('https://3002-idx-node-1736794691762.cluster-rcyheetymngt4qx5fpswua3ry4.cloudworkstations.dev/file', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(file_name),
-      });
-      console.log("data", fileResponse);
-      
-     
-      const sessionCreate = await fetch('https://3002-idx-node-1736794691762.cluster-rcyheetymngt4qx5fpswua3ry4.cloudworkstations.dev/session', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(file_name),
-      });
-
-      console.log("session", sessionCreate);
-      const mydata = await sessionCreate.json()
-
-        router.push(`/chat/${mydata.file_id}`);
-        setSelectedFile(null); // Reset the file input after successful upload
-      } else {
-        alert('فشل تحميل الملف!'); // Alert failure
+      const data = response.data;
+      console.log("🚀 File upload response:", data);
+      if (!data || !data.file_id) {
+        alert('فشل تحميل الملف!');
+        setUploading(false);
+        return;
       }
+      const file_name = {
+        user_id: userId,
+        file_name: selectedFile.name,
+        file_id: data.file_id,
+      };
+
+      console.log("✅ Uploaded file info:", file_name);
+      setFiles((prev) => [...prev, file_name]);
+
+      const fileResponse = await axios.post(
+        'http://157.230.120.254/file',
+        file_name,
+        {
+          headers: { 'Content-Type': 'application/json' },
+        }
+      );
+
+      const id = fileResponse.data?.addfile?.file_id;
+      console.log("🚀 Redirecting to file chat ID:", id);
+      router.push(`/chat/${id}`);
+
+      setSelectedFile(null);
+      setUploadProgress(0);
+      setUploading(false);
     } catch (error) {
-      console.error('خطأ أثناء تحميل الملف:', error); // Log the error if it happens
-      alert('فشل تحميل الملف!'); // Alert failure
+      setUploading(false);
+      setUploadProgress(0);
+
+      if (axios.isAxiosError(error)) {
+        const status = error.response?.status;
+        if (status === 429) {
+          alert(error.response?.data?.message || 'تم الوصول إلى الحد الأقصى. حاول لاحقاً');
+        } else if (status === 503) {
+          alert('الخدمة غير متوفرة حالياً. حاول مرة أخرى لاحقاً.');
+        } else {
+          console.error('❌ Axios Error:', error.message);
+          alert('فشل تحميل الملف!');
+        }
+      } else {
+        console.error('❌ Unknown Error:', error);
+        alert('فشل تحميل الملف!');
+      }
     }
   };
-  console.log("file upload",getUserUid);
 
   return (
-    <div className="flex flex-col items-center justify-center " dir="rtl">
-      <label className="cursor-pointer w-full max-w-md flex flex-col items-center gap-2  hover:bg-gray-50">
+    <div className="flex flex-col items-center justify-center" dir="rtl">
+      <label className="cursor-pointer w-full max-w-md flex flex-col items-center gap-2 hover:bg-gray-50">
         <input type="file" className="hidden" onChange={handleFileChange} />
-        <span className="text-customPurple">{selectedFile ? selectedFile.name : "دردشة جديدة"}</span>
+        <span className="text-customPurple  max-w-[100%] ">
+          {selectedFile ? selectedFile.name : "دردشة جديدة"}
+        </span>
       </label>
+
       {selectedFile && (
         <button
           onClick={handleUpload}
@@ -103,9 +121,14 @@ function FileUploader() {
           {uploading ? "جاري الرفع..." : "رفع الملف"}
         </button>
       )}
+
+      {uploadProgress > 0 && (
+        <p className="text-sm mt-4 text-muted-foreground">
+          تحميل الملف: {uploadProgress}%
+        </p>
+      )}
     </div>
   );
 }
 
 export default FileUploader;
-

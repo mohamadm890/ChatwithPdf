@@ -1,19 +1,19 @@
-// Import the functions you need from the SDKs you need
 import { initializeApp, getApps, getApp } from "firebase/app";
 import {getAuth} from "firebase/auth"
 
 const firebaseConfig = {
-  apiKey: "AIzaSyBIWFM2LwiJjFeBClRwLz7qq4r1-yoG0S0",
-  authDomain: "note-fdb0e.firebaseapp.com",
-  projectId: "note-fdb0e",
-  storageBucket: "note-fdb0e.firebasestorage.app",
-  messagingSenderId: "220110792877",
-  appId: "1:220110792877:web:be0c5433a949f3cabc7e24",
-  measurementId: "G-DQTSDKZPQ6"
+  apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
+  authDomain:        process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN,
+  projectId:         process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID,
+  storageBucket:     process.env.NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: process.env.NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID,
+  appId:             process.env.NEXT_PUBLIC_FIREBASE_APP_ID,
+  measurementId:     process.env.NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID,
 };
+// You can also log the whole config at once:
+console.log("📦 Firebase Config object:", firebaseConfig);
 
 // Initialize Firebase
 const app =  initializeApp(firebaseConfig);
 const auth = getAuth(app);
-
 export {app, auth}
