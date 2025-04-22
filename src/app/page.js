@@ -21,6 +21,7 @@ const HomePage = () => {
         <div className="absolute inset-0 animate-gradient-flow opacity-50">
           <div className="absolute h-full w-full bg-[linear-gradient(to_right,#f0f0f0_1px,transparent_1px),linear-gradient(to_bottom,#f0f0f0_1px,transparent_1px)] bg-[size:4rem_4rem] dark:bg-[linear-gradient(to_right,rgba(255,255,255,0.1)_1px,transparent_1px),linear-gradient(to_bottom,rgba(255,255,255,0.1)_1px,transparent_1px)]"></div>
         </div>
+    <p>{process.env.NEXT_PUBLIC_FIREBASE_API_KEY </p>
 
         <div className="relative z-20 mx-4 flex max-w-4xl flex-col items-center space-y-8 text-center">
         <h1 className="text-5xl font-bold leading-normal text-gray-800 dark:text-white md:text-6xl xl:text-6xl xl:mt-8 xl:mb-4">
