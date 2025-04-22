@@ -35,7 +35,7 @@ function FileUploader() {
       alert('جاري تحميل الملف...');
 
       const response = await axios.post(
-        'http://157.230.120.254/upload',
+        process.env.NEXT_PUBLIC_LINKAPI + 'upload',
         formData,
         {
           headers: {
