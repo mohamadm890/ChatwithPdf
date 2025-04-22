@@ -66,7 +66,7 @@ function FileUploader() {
       setFiles((prev) => [...prev, file_name]);
 
       const fileResponse = await axios.post(
-        'http://157.230.120.254/file',
+        process.env.NEXT_PUBLIC_LINKAPI + 'file',
         file_name,
         {
           headers: { 'Content-Type': 'application/json' },
