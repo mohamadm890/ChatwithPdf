@@ -26,7 +26,7 @@ const HomePage = () => {
         <h1 className="text-5xl font-bold leading-normal text-gray-800 dark:text-white md:text-6xl xl:text-6xl xl:mt-8 xl:mb-4">
         مستنداتك، محادثة تفاعلية في لحظة
           </h1>
-         <p>{process.env.NEXT_PUBLIC_FIREBASE_API_KEY}</p>
+         <p> this env {process.env.NEXT_PUBLIC_FIREBASE_API_KEY}</p>
           <p className="text-xl text-gray-600 dark:text-gray-300 md:text-2xl">
             استخرج المعلومات بذكاء، احصل على إجابات فورية، وافهم مستنداتك بشكل أعمق مع الذكاء الاصطناعي
           </p>
