@@ -64,7 +64,7 @@ function FileUploader() {
 
       console.log("✅ Uploaded file info:", file_name);
       setFiles((prev) => [...prev, file_name]);
-
+      setUploadProgress(50);
       const fileResponse = await axios.post(
         process.env.NEXT_PUBLIC_LINKAPI + 'file',
         file_name,
@@ -72,6 +72,7 @@ function FileUploader() {
           headers: { 'Content-Type': 'application/json' },
         }
       );
+      setUploadProgress(100);
 
       const id = fileResponse.data?.addfile?.file_id;
       console.log("🚀 Redirecting to file chat ID:", id);
