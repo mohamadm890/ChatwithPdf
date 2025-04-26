@@ -2,6 +2,7 @@ import { Cairo, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar"
 import { AppSidebar } from "./app-sidebar"
+import Head from 'next/head';
 // Ensure Arabic subset is included
 const cairo = Cairo({
   variable: "--font-cairo",
@@ -20,6 +21,19 @@ export default function RootLayout({ children }) {
   return (
 
     <html lang="ar" dir="rtl">
+
+<Head>
+  <title>مستنداتك، محادثة تفاعلية في لحظة - Chat with PDF</title>
+  <meta name="description" content="استخرج المعلومات بذكاء، احصل على إجابات فورية، وافهم مستنداتك بشكل أعمق مع الذكاء الاصطناعي." />
+
+  {/* Open Graph for social media preview */}
+  <meta property="og:title" content="مستنداتك، محادثة تفاعلية في لحظة - Chat with PDF" />
+  <meta property="og:description" content="استخرج المعلومات بذكاء، احصل على إجابات فورية، وافهم مستنداتك بشكل أعمق مع الذكاء الاصطناعي." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://chatwith-pdf-inky.vercel.app/" />
+  <meta property="og:image" content="https://chatwith-pdf-inky.vercel.app/your-preview-image.png" />
+</Head>
+    
         <meta
           name="google-site-verification"
           content="aBeBLn0154fF8U59hPrcX7A5liZvYPLgpEFjSvm1Fn8"
