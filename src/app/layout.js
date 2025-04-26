@@ -2,7 +2,7 @@ import { Cairo, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar"
 import { AppSidebar } from "./app-sidebar"
-
+import { Html, Head, Main, NextScript } from 'next/document';
 // Ensure Arabic subset is included
 const cairo = Cairo({
   variable: "--font-cairo",
@@ -21,8 +21,13 @@ export default function RootLayout({ children }) {
   return (
 
     <html lang="ar" dir="rtl">
-
-      <body className={` ${cairo.variable} antialiased`}>
+     <Head>
+        <meta
+          name="google-site-verification"
+          content="aBeBLn0154fF8U59hPrcX7A5liZvYPLgpEFjSvm1Fn8"
+        />
+      </Head>
+            <body className={` ${cairo.variable} antialiased`}>
        <SidebarProvider>
         <AppSidebar />
         <main className="flex-1 flex flex-col p-4">
