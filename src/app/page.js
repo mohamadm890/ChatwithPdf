@@ -1,5 +1,3 @@
-'use client';
-
 import React, { useRef } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 import FileUploader from './pages/fileUploader';
@@ -15,6 +13,13 @@ const HomePage = () => {
 
   return (
     <div className="home-page">
+      {/* SEO Meta Tags for better optimization */}
+      <head>
+        <title>تلخيص PDF بالذكاء الاصطناعي | تلخيص كتب PDF مجانا</title>
+        <meta name="description" content="استخرج المعلومات من مستندات PDF بسهولة باستخدام الذكاء الاصطناعي. تعرف على تلخيص PDF بالذكاء الاصطناعي وعمل أسئلة MCQ من PDF." />
+        <meta name="keywords" content="تلخيص PDF بالذكاء الاصطناعي, تلخيص كتب PDF بالذكاء الاصطناعي, تلخيص PDF مجانا, تلخيص PDF عربي, موقع لتلخيص PDF" />
+      </head>
+
       {/* Hero Section */}
       <div className="relative flex h-screen w-full items-center justify-center bg-gradient-to-br dark:from-gray-900 dark:to-gray-800">
         {/* Animated Background */}
@@ -23,8 +28,8 @@ const HomePage = () => {
         </div>
 
         <div className="relative z-20 mx-4 flex max-w-4xl flex-col items-center space-y-8 text-center">
-        <h1 className="text-5xl font-bold leading-normal text-gray-800 dark:text-white md:text-6xl xl:text-6xl xl:mt-8 xl:mb-4">
-        مستنداتك، محادثة تفاعلية في لحظة
+          <h1 className="text-5xl font-bold leading-normal text-gray-800 dark:text-white md:text-6xl xl:text-6xl xl:mt-8 xl:mb-4">
+            مستنداتك، محادثة تفاعلية في لحظة
           </h1>
           <p className="text-xl text-gray-600 dark:text-gray-300 md:text-2xl">
             استخرج المعلومات بذكاء، احصل على إجابات فورية، وافهم مستنداتك بشكل أعمق مع الذكاء الاصطناعي
@@ -34,7 +39,7 @@ const HomePage = () => {
             onClick={handleScrollToUpload}
             className="mt-4 transform rounded-full bg-white px-6 py-3 text-blue-600 shadow-lg transition hover:scale-105 hover:shadow-xl"
           >
-            <FileUploader/>
+            <FileUploader />
           </button>
         </div>
       </div>
@@ -107,7 +112,6 @@ const HomePage = () => {
       {/* Footer */}
       <footer className="bg-gray-100 py-6 text-center dark:bg-gray-900 dark:text-gray-400">
         <p>© 2025 AI Note. جميع الحقوق محفوظة.</p>
-       
       </footer>
     </div>
   );
