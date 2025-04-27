@@ -13,17 +13,19 @@ const cairo = Cairo({
 
 export const metadata = {
   title: "مستنداتك، محادثة تفاعلية في لحظة - Chat with PDF",
-  description: "استخرج المعلومات بذكاء، احصل على إجابات فورية، وافهم مستنداتك بشكل أعمق مع الذكاء الاصطناعي.",
+  description: "استخدم الذكاء الاصطناعي لاستخراج المعلومات وفهم مستنداتك بشكل أعمق. تلخيص مستندات PDF وكتب PDF باستخدام الذكاء الاصطناعي.",
   openGraph: {
     title: "مستنداتك، محادثة تفاعلية في لحظة - Chat with PDF",
-    description: "استخرج المعلومات بذكاء، احصل على إجابات فورية، وافهم مستنداتك بشكل أعمق مع الذكاء الاصطناعي.",
+    description: "استخدم الذكاء الاصطناعي لاستخراج المعلومات وفهم مستنداتك بشكل أعمق. تلخيص مستندات PDF وكتب PDF باستخدام الذكاء الاصطناعي.",
     url: "https://chatwith-pdf-inky.vercel.app/",
     type: "website",
   },
   verification: {
     google: "aBeBLn0154fF8U59hPrcX7A5liZvYPLgpEFjSvm1Fn8",
   },
+  keywords: "تلخيص مستندات PDF بالذكاء الاصطناعي, تلخيص كتب PDF بالذكاء الاصطناعي, تلخيص PDF باستخدام الذكاء الاصطناعي, تلخيص مستندات PDF عربي, ملخص مستندات PDF بالذكاء الاصطناعي",
 };
+
 
 export default function RootLayout({ children }) {
   return (
