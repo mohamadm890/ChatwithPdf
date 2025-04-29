@@ -12,7 +12,7 @@ const cairo = Cairo({
 
 
 export const metadata = {
-  title: "مستنداتك، محادثة تفاعلية في لحظة - Chat with PDF",
+  title: "PDF مستنداتك – محادثة تفاعلية وتلخيص فوري للمستندات - Chat with PDF",
   description: "استخدم الذكاء الاصطناعي لاستخراج المعلومات وفهم مستنداتك بشكل أعمق. تلخيص مستندات PDF وكتب PDF باستخدام الذكاء الاصطناعي.",
   openGraph: {
     title: "مستنداتك، محادثة تفاعلية في لحظة - Chat with PDF",
